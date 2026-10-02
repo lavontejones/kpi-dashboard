@@ -1,0 +1,169 @@
+date,category,amount
+2024-10-01,Payroll,78931.85
+2024-10-01,Rent & facilities,12155.15
+2024-10-01,Marketing,11293.9
+2024-10-01,Vehicles & fuel,10863.93
+2024-10-01,Insurance,10226.22
+2024-10-01,Software & tools,4759.81
+2024-10-01,Other,4797.29
+2024-11-01,Payroll,78385.06
+2024-11-01,Rent & facilities,12685.36
+2024-11-01,Marketing,9947.07
+2024-11-01,Vehicles & fuel,10342.98
+2024-11-01,Insurance,8199.88
+2024-11-01,Software & tools,3908.06
+2024-11-01,Other,4738.3
+2024-12-01,Payroll,72755.78
+2024-12-01,Rent & facilities,13209.75
+2024-12-01,Marketing,9468.02
+2024-12-01,Vehicles & fuel,11172.93
+2024-12-01,Insurance,7650.86
+2024-12-01,Software & tools,4606.3
+2024-12-01,Other,4341.82
+2025-01-01,Payroll,79941.97
+2025-01-01,Rent & facilities,12865.41
+2025-01-01,Marketing,8434.21
+2025-01-01,Vehicles & fuel,11718.83
+2025-01-01,Insurance,9730.23
+2025-01-01,Software & tools,4539.45
+2025-01-01,Other,4942.04
+2025-02-01,Payroll,67599.02
+2025-02-01,Rent & facilities,11659.14
+2025-02-01,Marketing,8174.15
+2025-02-01,Vehicles & fuel,10114.14
+2025-02-01,Insurance,8472.3
+2025-02-01,Software & tools,3793.85
+2025-02-01,Other,5391.74
+2025-03-01,Payroll,77807.68
+2025-03-01,Rent & facilities,13114.44
+2025-03-01,Marketing,10854.4
+2025-03-01,Vehicles & fuel,11438.99
+2025-03-01,Insurance,9571.84
+2025-03-01,Software & tools,4554.29
+2025-03-01,Other,5522.03
+2025-04-01,Payroll,74229.4
+2025-04-01,Rent & facilities,11980.67
+2025-04-01,Marketing,11731.98
+2025-04-01,Vehicles & fuel,12775.01
+2025-04-01,Insurance,8545.07
+2025-04-01,Software & tools,4963.59
+2025-04-01,Other,4454.66
+2025-05-01,Payroll,78900.79
+2025-05-01,Rent & facilities,11825.67
+2025-05-01,Marketing,12672.95
+2025-05-01,Vehicles & fuel,10415.28
+2025-05-01,Insurance,9362.21
+2025-05-01,Software & tools,4378.87
+2025-05-01,Other,4613.93
+2025-06-01,Payroll,84877.73
+2025-06-01,Rent & facilities,11979.66
+2025-06-01,Marketing,15518.27
+2025-06-01,Vehicles & fuel,11962.0
+2025-06-01,Insurance,10112.99
+2025-06-01,Software & tools,3677.01
+2025-06-01,Other,4957.03
+2025-07-01,Payroll,69335.08
+2025-07-01,Rent & facilities,14617.02
+2025-07-01,Marketing,15788.14
+2025-07-01,Vehicles & fuel,11856.38
+2025-07-01,Insurance,8548.48
+2025-07-01,Software & tools,4372.05
+2025-07-01,Other,5439.75
+2025-08-01,Payroll,84332.75
+2025-08-01,Rent & facilities,13610.62
+2025-08-01,Marketing,14108.57
+2025-08-01,Vehicles & fuel,10808.12
+2025-08-01,Insurance,9369.46
+2025-08-01,Software & tools,4739.65
+2025-08-01,Other,5167.71
+2025-09-01,Payroll,73241.94
+2025-09-01,Rent & facilities,11095.07
+2025-09-01,Marketing,14177.14
+2025-09-01,Vehicles & fuel,9641.87
+2025-09-01,Insurance,8362.06
+2025-09-01,Software & tools,4513.44
+2025-09-01,Other,4689.56
+2025-10-01,Payroll,84318.77
+2025-10-01,Rent & facilities,11913.98
+2025-10-01,Marketing,11243.36
+2025-10-01,Vehicles & fuel,10327.24
+2025-10-01,Insurance,9920.08
+2025-10-01,Software & tools,4638.28
+2025-10-01,Other,5098.93
+2025-11-01,Payroll,84084.69
+2025-11-01,Rent & facilities,11128.87
+2025-11-01,Marketing,9739.47
+2025-11-01,Vehicles & fuel,8887.36
+2025-11-01,Insurance,8541.71
+2025-11-01,Software & tools,4276.92
+2025-11-01,Other,5219.44
+2025-12-01,Payroll,80522.69
+2025-12-01,Rent & facilities,12754.46
+2025-12-01,Marketing,8697.75
+2025-12-01,Vehicles & fuel,11130.71
+2025-12-01,Insurance,8977.55
+2025-12-01,Software & tools,4751.92
+2025-12-01,Other,5482.48
+2026-01-01,Payroll,78769.3
+2026-01-01,Rent & facilities,13689.05
+2026-01-01,Marketing,7824.25
+2026-01-01,Vehicles & fuel,10837.85
+2026-01-01,Insurance,8619.16
+2026-01-01,Software & tools,5042.79
+2026-01-01,Other,4575.65
+2026-02-01,Payroll,91401.37
+2026-02-01,Rent & facilities,9879.97
+2026-02-01,Marketing,9460.61
+2026-02-01,Vehicles & fuel,10831.66
+2026-02-01,Insurance,8730.37
+2026-02-01,Software & tools,4250.99
+2026-02-01,Other,4973.36
+2026-03-01,Payroll,84789.81
+2026-03-01,Rent & facilities,10568.74
+2026-03-01,Marketing,9559.55
+2026-03-01,Vehicles & fuel,11702.6
+2026-03-01,Insurance,8710.08
+2026-03-01,Software & tools,4215.39
+2026-03-01,Other,5018.6
+2026-04-01,Payroll,91632.19
+2026-04-01,Rent & facilities,12624.14
+2026-04-01,Marketing,12324.38
+2026-04-01,Vehicles & fuel,12063.88
+2026-04-01,Insurance,9035.4
+2026-04-01,Software & tools,4415.0
+2026-04-01,Other,5349.38
+2026-05-01,Payroll,84024.05
+2026-05-01,Rent & facilities,11611.99
+2026-05-01,Marketing,12041.23
+2026-05-01,Vehicles & fuel,12596.22
+2026-05-01,Insurance,10501.49
+2026-05-01,Software & tools,4436.99
+2026-05-01,Other,5305.39
+2026-06-01,Payroll,95026.39
+2026-06-01,Rent & facilities,12181.82
+2026-06-01,Marketing,16587.71
+2026-06-01,Vehicles & fuel,9886.95
+2026-06-01,Insurance,8866.91
+2026-06-01,Software & tools,3748.73
+2026-06-01,Other,4595.59
+2026-07-01,Payroll,79058.73
+2026-07-01,Rent & facilities,10235.69
+2026-07-01,Marketing,14981.74
+2026-07-01,Vehicles & fuel,11321.1
+2026-07-01,Insurance,8521.02
+2026-07-01,Software & tools,4303.77
+2026-07-01,Other,4706.11
+2026-08-01,Payroll,92826.09
+2026-08-01,Rent & facilities,11419.66
+2026-08-01,Marketing,13900.35
+2026-08-01,Vehicles & fuel,11820.44
+2026-08-01,Insurance,8371.92
+2026-08-01,Software & tools,4042.14
+2026-08-01,Other,5295.97
+2026-09-01,Payroll,80223.66
+2026-09-01,Rent & facilities,13180.18
+2026-09-01,Marketing,12667.29
+2026-09-01,Vehicles & fuel,11070.55
+2026-09-01,Insurance,8283.9
+2026-09-01,Software & tools,4504.66
+2026-09-01,Other,4791.6
