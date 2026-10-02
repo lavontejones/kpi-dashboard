@@ -1,65 +1,45 @@
 # Executive KPI Dashboard
 
-A Streamlit management-reporting dashboard for a fictional home-services SMB
-("Cedarline Home Services"). It answers the four questions an owner actually
-asks every Monday morning: **how's revenue trending, how's cash, how's the
-pipeline, how's the crew doing?**
+An independent consulting portfolio project by Lavonte Jones: a management reporting dashboard for fictional **Cedarline Home Services**. All data is generated locally with seed 42; there are no client exports or integrations.
 
-> ⚠️ **Sample data.** Every figure in this app is synthetically generated for
-> demonstration purposes. It does not represent any real business.
+## Business questions
+Revenue trend, gross margin, operating cash proxy, spending coverage, pipeline value, and close time. Four tabs cover revenue, cash, pipeline, and technician operations. Base, downside, and upside scenarios demonstrate operating leverage.
 
-## What this demonstrates
-
-This project maps directly to consulting deliverables:
-
-- **KPI design** — choosing the six metrics that matter (revenue, gross margin,
-  net cash flow, cash runway, pipeline value, close time) instead of drowning
-  an owner in forty charts.
-- **Management reporting** — a repeatable weekly/monthly pack: filters,
-  prior-period deltas, and thresholds, not one-off analysis.
-- **Scenario modeling** — Base / Downside (−15%) / Upside (+15%) revenue
-  scenarios with realistic operating leverage (variable costs scale at 80% of
-  the revenue change; fixed costs don't move).
-- **Clean, testable code** — KPI logic lives in pure functions in
-  `src/kpis.py`, separate from the Streamlit presentation layer.
-
-## Quick start
-
-```bash
-pip install -r requirements.txt
-python src/data_gen.py      # generate the sample dataset (seeded, reproducible)
-streamlit run app.py
+## Run locally
+Python 3.12 or newer:
+```sh
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python src/data_gen.py
+python -m streamlit run app.py
 ```
+On Windows activate `.venv\Scripts\activate` instead. Open the local URL printed by Streamlit. No credentials or environment variables are required, so an `.env.example` is unnecessary.
 
-## Project structure
+## Demo
+The committed CSVs make the app runnable immediately. Choose the final 12 months, compare Base with Downside, and select a region. See [demo walkthrough](docs/DEMO.md) and [sample-data preview](docs/preview.svg).
 
+## Architecture
+```mermaid
+flowchart LR
+  G[Seeded NumPy generator] --> C[Synthetic CSV files]
+  C --> P[Pandas filters]
+  P --> K[Pure KPI functions]
+  K --> S[Streamlit cards]
+  P --> V[Plotly charts]
 ```
-kpi-dashboard/
-├── app.py              # Streamlit app (filters, KPI cards, 4 tabs)
-├── src/
-│   ├── data_gen.py     # deterministic synthetic data generator (seed=42)
-│   └── kpis.py         # pure KPI computations + prior-period deltas
-├── data/               # generated CSVs (jobs, expenses, cash, pipeline)
-├── requirements.txt
-└── README.md
+`src/data_gen.py` owns the data provenance; `src/kpis.py` owns formulas; `app.py` owns presentation. Tests use hand-calculated fixtures and Streamlit's app runner.
+
+## Validate
+```sh
+python -m unittest discover -s tests -v
 ```
+CI repeats these checks. [Audit notes](docs/AUDIT.md) describe publication checks and remaining settings.
 
-The dataset covers 24 months of daily-granularity data: ~11k completed jobs
-across 4 regions and 12 technicians, monthly overhead by category, weekly cash
-balances derived from operating flows, and a 140-deal pipeline snapshot.
-Revenue grows ~45% over the period with a summer seasonal peak; gross margin
-runs ~35%.
+## Definitions and limitations
+Gross margin = (revenue − COGS) / revenue. Net Cash Flow is revenue − COGS − posted overhead: an accrual operating proxy, not reconciled bank movement. Runway is cash divided by average weekly COGS plus overhead, so it measures total-spend coverage rather than net burn. Monthly overhead posts on the first day; partial-month comparisons can distort results.
 
-## Screenshots
+Region filters allocate company overhead and cash by each region's full-dataset revenue share; this is illustrative, not segment accounting. Pipeline remains a snapshot as of September 30, 2026, regardless of the date filter. Scenario multipliers affect headline operating metrics; charts and cash balances remain historical. Technician utilization uses an illustrative 22 jobs/month denominator and caps display at 120%. Synthetic data, assumptions, and thresholds require replacement and validation for a real engagement. No accounting, investment, or production assurance is offered.
 
-_Screenshots of the Revenue and Cash tabs will be added here after the first run._
-
-## Ideas for extending
-
-- Swap the CSV layer for real data: QuickBooks (P&L/cash) + Stripe/job-scheduling
-  exports (jobs) + HubSpot (pipeline) — the KPI functions don't care where the
-  dataframes come from.
-- Add a weekly email/PDF export of the KPI card row for owners who don't open
-  dashboards.
-- Add budget-vs-actual: a `budget.csv` with monthly targets and variance columns.
-- Add cohort/retention views for recurring-service businesses.
+## License
+MIT, retaining the repository's existing license. Third-party packages retain their own licenses. No JONESYS assets or client material are used.

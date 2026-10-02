@@ -39,7 +39,7 @@ def _summarize(
     net_cash_flow = (revenue - cogs) - opex
 
     cash_f = cash[cash["week_start"] <= end]
-    cash_balance = float(cash_f["balance"].iloc[-1]) if len(cash_f) else 0.0
+    cash_balance = float(cash_f.sort_values("week_start")["balance"].iloc[-1]) if len(cash_f) else 0.0
 
     days = max((end - start).days + 1, 1)
     avg_weekly_outflow = (cogs + opex) / (days / 7)
@@ -68,6 +68,10 @@ def compute_kpis(
     The prior period is the equal-length window immediately before ``start``.
     Pipeline metrics are a point-in-time snapshot, so they carry no prior.
     """
+    if end < start:
+        raise ValueError("end must be on or after start")
+    if scenario_mult <= 0:
+        raise ValueError("scenario multiplier must be positive")
     current = _summarize(jobs, expenses, cash, start, end, scenario_mult)
 
     period_len = end - start
@@ -106,3 +110,4 @@ def compute_kpis(
             "prior": None,
         },
     }
+

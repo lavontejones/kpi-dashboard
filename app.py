@@ -54,12 +54,16 @@ def sidebar_filters(jobs: pd.DataFrame):
     st.sidebar.header("Filters")
     min_date, max_date = jobs["date"].min().date(), jobs["date"].max().date()
     default_start = max_date - pd.DateOffset(months=12) + pd.DateOffset(days=1)
-    start, end = st.sidebar.date_input(
+    date_range = st.sidebar.date_input(
         "Date range",
         value=(default_start.date(), max_date),
         min_value=min_date,
         max_value=max_date,
     )
+    if len(date_range) != 2:
+        st.info("Select both a start and an end date.")
+        st.stop()
+    start, end = date_range
     regions = st.sidebar.multiselect("Region", REGIONS, default=REGIONS)
     scenario_name = st.sidebar.selectbox("Scenario", list(SCENARIOS.keys()))
     return pd.Timestamp(start), pd.Timestamp(end), regions, SCENARIOS[scenario_name], scenario_name
@@ -110,13 +114,13 @@ def tab_revenue(jobs: pd.DataFrame, start, end) -> None:
     fig.update_layout(title="Monthly revenue vs prior year",
                       xaxis_title="", yaxis_title="Revenue ($)",
                       yaxis_tickprefix="$", hovermode="x unified")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
     by_region = jobs.groupby("region", as_index=False)["revenue"].sum()
     fig2 = px.bar(by_region, x="region", y="revenue", title="Revenue by region",
                   labels={"region": "", "revenue": "Revenue ($)"}, text_auto=".2s")
     fig2.update_traces(texttemplate="$%{y:.2s}")
-    st.plotly_chart(fig2, use_container_width=True)
+    st.plotly_chart(fig2, width="stretch")
 
 
 # --------------------------------------------------------------------- tab: cash
@@ -129,7 +133,7 @@ def tab_cash(cash: pd.DataFrame, kpis: dict, end) -> None:
                   annotation_text=f"Minimum threshold (${CASH_MIN_THRESHOLD:,.0f})")
     fig.update_layout(title="Cash balance with minimum-threshold line",
                       xaxis_title="", yaxis_title="Balance ($)", yaxis_tickprefix="$")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
     runway = kpis["cash_runway_weeks"]["value"]
     color = "green" if runway >= 8 else "orange" if runway >= 4 else "red"
@@ -142,7 +146,7 @@ def tab_cash(cash: pd.DataFrame, kpis: dict, end) -> None:
                          {"range": [4, 8], "color": "#fff3cd"},
                          {"range": [8, 32], "color": "#d4edda"}]},
     ))
-    st.plotly_chart(gauge, use_container_width=True)
+    st.plotly_chart(gauge, width="stretch")
     st.caption(
         f"Runway = current balance ({fmt_money(kpis['cash_balance']['value'])}) ÷ "
         "average weekly outflow (COGS + overhead) in the selected period. "
@@ -162,7 +166,7 @@ def tab_pipeline(pipeline: pd.DataFrame, kpis: dict) -> None:
     fig = px.bar(funnel, x="stage", y="deals", title="Pipeline funnel",
                  labels={"stage": "", "deals": "Deals"},
                  hover_data={"value": ":$,.0f"})
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
     c1, c2 = st.columns(2)
     c1.metric("Win rate", f"{kpis['win_rate']['value']:.0%}")
@@ -171,7 +175,7 @@ def tab_pipeline(pipeline: pd.DataFrame, kpis: dict) -> None:
     st.subheader("Deals by stage")
     st.dataframe(
         funnel.rename(columns={"stage": "Stage", "deals": "Deals", "value": "Value ($)"}),
-        use_container_width=True, hide_index=True,
+        width="stretch", hide_index=True,
     )
 
 
@@ -185,7 +189,7 @@ def tab_operations(jobs: pd.DataFrame) -> None:
     fig = px.bar(monthly_jobs, x="month", y="jobs_completed",
                  title="Jobs completed per month",
                  labels={"month": "", "jobs_completed": "Jobs"})
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
     tech = (
         jobs.groupby("technician", as_index=False)
@@ -204,7 +208,7 @@ def tab_operations(jobs: pd.DataFrame) -> None:
     fig2.update_yaxes(tickformat=".0%")
     fig2.add_hline(y=1.0, line_dash="dash", line_color="red",
                    annotation_text="Capacity")
-    st.plotly_chart(fig2, use_container_width=True)
+    st.plotly_chart(fig2, width="stretch")
 
     st.subheader("Technician leaderboard")
     show = tech.copy()
@@ -215,7 +219,7 @@ def tab_operations(jobs: pd.DataFrame) -> None:
         show.rename(columns={"technician": "Tech", "jobs": "Jobs",
                              "revenue": "Revenue", "avg_ticket": "Avg ticket",
                              "utilization": "Utilization"}),
-        use_container_width=True, hide_index=True,
+        width="stretch", hide_index=True,
     )
 
 
@@ -236,7 +240,14 @@ def main() -> None:
         st.error("No data for the selected filters.")
         return
 
-    kpis = compute_kpis(jobs_f, expenses, cash, pipeline, start, end, scenario_mult)
+    if set(regions) != set(REGIONS):
+        st.info("Regional revenue and pipeline are shown. Company costs and cash are allocated by the selected regions' full-dataset revenue share; this is a demo assumption, not segment accounting.")
+    share = jobs_f['revenue'].sum() / jobs['revenue'].sum()
+    expenses_f = expenses.assign(amount=expenses['amount'] * share)
+    cash_f = cash.assign(balance=cash['balance'] * share)
+    pipeline_f = pipeline[pipeline['region'].isin(regions)]
+    kpis = compute_kpis(jobs_f, expenses_f, cash_f, pipeline_f, start, end, scenario_mult)
+    st.caption("Scenarios change headline operating KPIs only. Charts and cash balance remain historical; pipeline is the final dataset snapshot. Net Cash Flow is an accrual operating proxy, not bank movement.")
     st.caption(f"Scenario: **{scenario_name}** · {start.date()} → {end.date()} · "
                f"{len(regions)} region(s)")
     kpi_row(kpis)
@@ -245,12 +256,13 @@ def main() -> None:
     with t1:
         tab_revenue(jobs_f[(jobs_f["date"] >= start) & (jobs_f["date"] <= end)], start, end)
     with t2:
-        tab_cash(cash, kpis, end)
+        tab_cash(cash_f, kpis, end)
     with t3:
-        tab_pipeline(pipeline, kpis)
+        tab_pipeline(pipeline_f, kpis)
     with t4:
         tab_operations(jobs_f[(jobs_f["date"] >= start) & (jobs_f["date"] <= end)])
 
 
 if __name__ == "__main__":
     main()
+
