@@ -4,6 +4,10 @@ Description: Synthetic SMB KPI dashboard with scenario analysis and transparent 
 
 Topics: streamlit, python, dashboard, kpi, management-reporting, synthetic-data
 
-Default branch: main. Enable automatic deletion of merged branches and prefer squash merges. Keep workflow token permissions read-only. Enable dependency graph, Dependabot alerts and security updates where available; enable secret scanning and push protection when supported. Enable private vulnerability reporting. Add a main-branch ruleset requiring the Validation check and disallow force pushes/deletion when the account plan permits it. No Pages or production deployment is needed.
+## Applied October 2, 2026
 
-These are intended settings, not claims that account controls have already been changed. The connected file API cannot change repository metadata, visibility, or administration settings. Publication requires a separate authenticated settings session and completed audit.
+Public visibility; default branch main. Automatic merged-branch deletion and squash-only merging enabled. Actions tokens have read-only repository contents/packages permissions; Actions cannot create or approve pull requests. All external contributor workflow runs require approval.
+
+Dependency graph, Dependabot alerts and security updates, private vulnerability reporting, secret scanning, and push protection enabled. Dependabot version-update configuration is committed. An active main ruleset blocks force pushes and deletion without bypass actors. Check requirements are maintained in GitHub repository rules; consult that live configuration for the definitive current list. No production deployment or GitHub Pages site was created.
+
+These are applied controls, verified in the authenticated settings interface. CodeQL and optional AI scanning were not enabled. Original history was preserved.
